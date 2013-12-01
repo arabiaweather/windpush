@@ -1,0 +1,35 @@
+{
+  "name": "windpush",
+  "version": "0.5.0",
+  "description": "Broadcast messages to all active online users on a site ",
+  "main": "app.js",
+  "dependencies": {
+    "asciimo": "~0.3.1",
+    "colors": "~0.6.2",
+    "konphyg": "~1.2.3",
+    "restify": "~2.6.0",
+    "se7ensky-restify-preflight": "~0.1.6",
+    "socket.io": "~0.9.16"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/arabiaweather/windpush.git"
+  },
+  "keywords": [
+    "broadcast",
+    "live",
+    "messages",
+    "push",
+    "socket.io"
+  ],
+  "author": "Yousef Wadi",
+  "license": "CC",
+  "bugs": {
+    "url": "https://github.com/arabiaweather/windpush/issues"
+  },
+  "homepage": "https://github.com/arabiaweather/windpush"
+}
