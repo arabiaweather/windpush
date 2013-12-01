@@ -1,21 +1,49 @@
 //TODO: Validate packet structure 
-//TODO: Basic Auth from konfyg 
-//TODO: Clean Console.log and debugs 
+var config = require('konphyg')(__dirname + '/config');
 var restify = require('restify');
 var history = {};
+
+
+var sys = require('sys');
+var asciimo = require('asciimo').Figlet;
+var colors = require('colors'); // add colors for fun
+
+var font = 'Ogre';
+var welcome = "== Windpush ==";
+asciimo.write(welcome,font,function(art){
+        sys.puts(art.white);
+});
+
+
+//Configuration Read//
+var conf = config('main');
+// Allow preflight 
+sys.puts(("Allow CORS -- " + conf.allowCORS).white);
+sys.puts(("Allow Prefllight -- " + conf.allowPreflight).white);
+sys.puts(("AllowJSONP -- " + conf.allowJSONP).white);
+
 
 
 //SETUP REST SERVER// 
 var server = restify.createServer();
 server.use(restify.bodyParser());
 server.use(restify.gzipResponse());
-server.use(restify.jsonp());
+if(conf.allowJSONP){
+	server.use(restify.jsonp());
+	console.log("JSONP Active");
+}
 server.use(restify.queryParser());
 server.use(restify.authorizationParser());
-server.use(restify.CORS());
-
-var preflight = require('se7ensky-restify-preflight');
-preflight(server);
+if(conf.allowCORS){
+	server.use(restify.CORS());
+	console.log("CORS Active");
+}
+if(conf.allowPreflight)
+{
+	var preflight = require('se7ensky-restify-preflight');
+	preflight(server);
+	console.log("Preflight Active");
+}
 
 /////
 
@@ -35,19 +63,16 @@ server.get('/delHistory/:id', clearHistoryItem);
 
 
 //DECLARE SOCKET SERVER AND PUSH LAST DATA SENT//
-var io = require('socket.io').listen(server);
+var io = require('socket.io').listen(server, { log: conf.socketLog });
 io.sockets.on('connection', function (socket) {
-	console.log("Connection....");
 	socket.on('cid', function (data) {
-	console.log(data.cid);
 	socket.emit(data.cid, {data : history[data.cid]});
-console.log(history);
 	});
 });
 
 //START SERVER ON PORT WITH SOCKET SERVER READY//
-server.listen(8080, function() {
-  console.log('%s listening at %s', server.name, server.url);
+server.listen(conf.port, function() {
+	console.log('%s listening at %s', "Windpush", server.url);
 });
 ///
 
@@ -73,7 +98,6 @@ function pushData(req, res,next)
 function addToHistory(id, data)
 {
 	history[id] = data; 	
-	console.log(history);
 }
 
 function clearAllHistory(req, res, next)
@@ -116,7 +140,7 @@ function getHistoryList(req, res, next)
 
 function auth(user, pass)
 {
-	if(user == 'yousef' && pass== 'wadi')
+	if(user == conf.username && pass== conf.password)
 	{
 		return true;
 	}

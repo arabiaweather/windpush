@@ -1,0 +1,8 @@
+{
+	"allowCORS" : true,
+	"allowPreflight" : true, 
+	"allowJSONP" : true, 
+	"auth" : {"username":"yousef", "password":"wadi"},
+	"port":"8080",
+	"socketLog" : false
+}
