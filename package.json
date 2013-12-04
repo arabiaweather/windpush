@@ -1,6 +1,6 @@
 {
   "name": "windpush",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Broadcast messages to all active online users on a site ",
   "main": "app.js",
   "dependencies": {
