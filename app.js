@@ -140,7 +140,7 @@ function getHistoryList(req, res, next)
 
 function auth(user, pass)
 {
-	if(user == conf.auth.username && pass== con.auth.password)
+	if(user == conf.auth.username && pass== conf.auth.password)
 	{
 		return true;
 	}
