@@ -121,7 +121,8 @@ function clearHistoryItem(req, res, next)
                 return next;
         }
 
-	history[req.params.id] = null;
+	//history[req.params.id] = null;
+	delete history[req.params.id];
 	res.send(200);
 	return next;		
 }
