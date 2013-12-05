@@ -4,5 +4,6 @@
 	"allowJSONP" : true, 
 	"auth" : {"username":"yousef", "password":"wadi"},
 	"port":"8080",
-	"socketLog" : false
+	"socketLog" : false,
+	"socketIOPort" : "8081"
 }
