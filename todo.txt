@@ -1,1 +1,0 @@
-//TODO: Push history on connect (Use Handler, check socket.io documentation

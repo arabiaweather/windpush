@@ -1,8 +1,8 @@
 {
   "name": "windpush",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "description": "Broadcast messages to all active online users on a site ",
-  "main": "app.js",
+  "main": "server.js",
   "dependencies": {
     "asciimo": "~0.3.1",
     "colors": "~0.6.2",
