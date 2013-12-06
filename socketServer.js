@@ -4,6 +4,7 @@ var conf = config('main');
 
 var colors = require('colors');
 var sys = require("sys");
+var history = {};
 
 sys.puts("Socket.IO Server Started".yellow);
 
@@ -26,13 +27,25 @@ sys.puts("----------------------------------------".yellow);
 
 process.on('message', function(m) {
 	if(conf.socketLog)
-		console.log('Broadcasting...',m);
-	io.sockets.emit(m.id,m.body);	
+		console.log('Recived Data from REST Server',m);
+	if( m.type === 'broadcast')
+	{
+		if(conf.socketLog)
+			console.log('Broadcast Message Being Sent');
+		io.sockets.emit(m.id,m.body);	
+	}
+
+	if(m.type === 'history')
+	{
+		if(conf.socketLog)
+			console.log("Recived New History Package");
+		history = m.history;	
+	}
 });
 
 
 function handler (req, res) {
     res.writeHead(200);
-    res.end();
+    res.end(JSON.stringify(history));
   };
 

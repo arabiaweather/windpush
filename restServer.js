@@ -71,7 +71,9 @@ function pushData(req, res,next)
 	}
 //TODO: Change to send to child Socket IO Server 
 //	io.sockets.emit(req.body.data.id,req.body);
-socketServer.send({id:req.body.data.id, body:req.body});
+	console.log("ABC");
+	var msgToSend = {type:"broadcast",id:req.body.data.id, body:req.body};
+	socketServer.send(msgToSend);
 	res.send(req.body.data);
 	addToHistory(req.body.data.id, req.body.data);
 	return next;
@@ -82,7 +84,8 @@ socketServer.send({id:req.body.data.id, body:req.body});
 
 function addToHistory(id, data)
 {
-	history[id] = data; 	
+	history[id] = data;
+	socketServer.send({type:"history",history:history});
 }
 
 function clearAllHistory(req, res, next)
@@ -94,6 +97,7 @@ function clearAllHistory(req, res, next)
         }
 
 	history = {};
+	socketServer.send({type: "history", history:{}});
 	res.send(200);
 	return next;
 }
@@ -108,6 +112,7 @@ function clearHistoryItem(req, res, next)
 
 	//history[req.params.id] = null;
 	delete history[req.params.id];
+	socketServer.send({type: "history", history:history});
 	res.send(200);
 	return next;		
 }
